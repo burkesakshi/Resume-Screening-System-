@@ -1,0 +1,298 @@
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+                <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %} me-2"></i>
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Jobs - ResumeScreen AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        
+        .jobs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 2.8rem;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .page-title i { color: #28a745; }
+        
+        .jobs-count {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            transition: all 0.4s;
+            border-left: 6px solid #28a745;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        .company-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .job-title {
+            color: #2c3e50;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .company-name {
+            color: #28a745;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .job-desc {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        
+        .job-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .experience-badge {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .job-date {
+            color: #999;
+            font-weight: 600;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .apply-section {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .apply-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+        }
+        
+        .apply-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 25px rgba(40,167,69,0.4);
+        }
+        
+        .no-jobs {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: #999;
+        }
+        
+        .no-jobs i {
+            font-size: 6rem;
+            margin-bottom: 2rem;
+            opacity: 0.5;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #667eea;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .jobs-grid { grid-template-columns: 1fr; }
+            .jobs-container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="jobs-container">
+        <!-- Header -->
+        <a href="{{ url_for('index') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-briefcase"></i>
+                All Job Openings
+            </h1>
+            <div class="jobs-count">
+                {{ jobs|length if jobs else 0 }} jobs available
+            </div>
+        </div>
+        
+        <!-- Jobs Grid -->
+        {% if jobs %}
+            <div class="jobs-grid">
+                {% for job in jobs %}
+                <div class="job-card" id="{{ job.id }}">
+                    <div class="company-avatar">
+                        {{ job.company_name[:2]|upper }}
+                    </div>
+                    
+                    <h2 class="job-title">{{ job.job_title }}</h2>
+                    <p class="company-name">{{ job.company_name }}</p>
+                    
+                    <p class="job-desc">
+                        {{ job.job_description }}
+                    </p>
+                    
+                    <div class="job-meta">
+                        <span class="experience-badge">
+                            {{ job.experience_required }}
+                        </span>
+                        <span class="job-date">
+                            Posted {{ job.created_at.strftime('%d %b %Y') }}
+                        </span>
+                    </div>
+                    
+                    {% if job.skills_required %}
+                    <div class="skills-container">
+                        {% for skill in job.skills_required.split(',') if skill.strip() %}
+                        <span class="skill-tag">{{ skill.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="apply-section">
+                        {% if is_logged_in %}
+                        <form method="POST" action="{{ url_for('apply_job', job_id=job.id) }}" style="display: inline;">
+                            <button type="submit" class="apply-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                Apply Now
+                            </button>
+                        </form>
+                        {% else %}
+                        <a href="{{ url_for('login') }}" class="apply-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Apply
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-jobs">
+                <i class="fas fa-briefcase"></i>
+                <h2>No Jobs Available</h2>
+                <p>Check back soon for exciting opportunities!</p>
+                <a href="{{ url_for('register') }}" class="apply-btn">
+                    <i class="fas fa-user-plus"></i> Register for Alerts
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

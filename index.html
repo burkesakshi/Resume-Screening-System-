@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Screening System - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="overlay">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2>Resume Screening System</h2>
+                    <p>Streamline your hiring process with AI-powered resume screening. 
+                    Find the perfect candidates faster and smarter.</p>
+                </div>
+                <div class="cta-buttons">
+                    {% if not is_logged_in %}
+                    <a href="{{ url_for('register') }}" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Get Started - Register
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                        <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('jobs') }}" class="btn btn-tertiary">
+                        <i class="fas fa-briefcase"></i> View All Jobs
+                    </a>
+                    <a href="{{ url_for('admin_login') }}" class="btn btn-admin">
+                        <i class="fas fa-user-shield"></i> Admin
+                    </a>
+                    
+                </div>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-brain"></i>
+                        <span>AI-Powered Matching</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-chart-line"></i>
+                        <span>90% Faster Screening</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-users"></i>
+                        <span>{{ total_candidates or 0 }} Candidates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Stats Section -->
+<div class="stats-section">
+    <div class="container">
+        <div class="stats">
+            <div class="stat">
+                <h3>{{ total_candidates or 0 }}</h3>
+                <p>Registered Candidates</p>
+            </div>
+            <div class="stat">
+                <h3>{{ jobs|length if jobs else 0 }}</h3>
+                <p>Active Job Postings</p>
+            </div>
+            <div class="stat">
+                <h3>95%</h3>
+                <p>AI Matching Accuracy</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

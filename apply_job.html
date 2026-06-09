@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for {{ job.job_title }} - ResumeScreen AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        
+        .apply-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #667eea;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .application-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+        
+        .job-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .job-title {
+            color: #2c3e50;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .company-name {
+            color: #28a745;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .form-section-title {
+            color: #333;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .form-section-title i {
+            color: #28a745;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .form-label .required {
+            color: #dc3545;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 4px rgba(40,167,69,0.1);
+        }
+        
+        .file-upload-wrapper {
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        
+        .file-upload-wrapper:hover {
+            border-color: #28a745;
+            background: #f0fdf4;
+        }
+        
+        .file-upload-icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-text {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-upload-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+        }
+        
+        .file-name {
+            margin-top: 1rem;
+            color: #28a745;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(40,167,69,0.4);
+        }
+        
+        .job-info-box {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            border-left: 4px solid #28a745;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .job-info-box h4 {
+            color: #2c3e50;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+        
+        .job-info-box p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .application-card { padding: 2rem 1.5rem; }
+            .apply-container { padding: 0 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" 
+                     style="max-width: 800px; margin: 1rem auto;" role="alert">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="apply-container">
+        <a href="{{ url_for('jobs') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Jobs
+        </a>
+        
+        <div class="application-card">
+            <!-- Job Header -->
+            <div class="job-header">
+                <h1 class="job-title">{{ job.job_title }}</h1>
+                <p class="company-name">{{ job.company_name }}</p>
+            </div>
+            
+            <!-- Job Info -->
+            <div class="job-info-box">
+                <h4><i class="fas fa-info-circle"></i> Job Details</h4>
+                <p><strong>Experience Required:</strong> {{ job.experience_required }} years</p>
+                <p><strong>Skills:</strong> {{ job.skills_required }}</p>
+                <p><strong>Posted:</strong> {{ job.formatted_date }}</p>
+            </div>
+            
+            <!-- Application Form -->
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-section">
+                    <h3 class="form-section-title">
+                        <i class="fas fa-user"></i>
+                        Personal Information
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Full Name <span class="required">*</span>
+                        </label>
+                        <input type="text" 
+                               name="name" 
+                               class="form-control" 
+                               placeholder="Enter your full name"
+                               value="{{ candidate_name }}"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Email Address <span class="required">*</span>
+                        </label>
+                        <input type="email" 
+                               name="email" 
+                               class="form-control" 
+                               placeholder="your.email@example.com"
+                               value="{{ candidate_email }}"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Phone Number <span class="required">*</span>
+                        </label>
+                        <input type="tel" 
+                               name="phone" 
+                               class="form-control" 
+                               placeholder="10-digit mobile number"
+                               pattern="[0-9]{10}"
+                               required>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">
+                        <i class="fas fa-file-alt"></i>
+                        Upload Resume
+                    </h3>
+                    
+                    <div class="file-upload-wrapper">
+                        <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                        <p class="file-upload-text">Choose your resume file (PDF, DOC, DOCX)</p>
+                        <input type="file" 
+                               name="resume" 
+                               class="file-input" 
+                               id="resume"
+                               accept=".pdf,.doc,.docx"
+                               required>
+                        <label for="resume" class="file-upload-btn">
+                            <i class="fas fa-upload"></i> Browse Files
+                        </label>
+                        <p class="file-name" id="file-name"></p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    Submit Application
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Show selected filename
+        document.getElementById('resume').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            const fileNameDisplay = document.getElementById('file-name');
+            if (fileName) {
+                fileNameDisplay.textContent = '✅ Selected: ' + fileName;
+                fileNameDisplay.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

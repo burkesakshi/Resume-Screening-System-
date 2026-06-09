@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Registration - ResumeScreen AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'error' }}">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+           
+            <h1>Candidate Registration</h1>
+            
+        </div>
+        
+        <!-- Form (MATCHES DATABASE PERFECTLY) -->
+        <div class="form-container">
+            <form method="POST" id="registrationForm" novalidate>
+                <!-- Full Name (DATABASE: name VARCHAR(100)) -->
+                <div class="form-group">
+                    <label for="name">
+                        <i class="fas fa-user"></i> Full Name <span class="required">*</span>
+                    </label>
+                    <input type="text" id="name" name="name" placeholder="Sakshi Burke" required maxlength="50" minlength="2">
+                    <small>Letters and spaces only (2-50 characters)</small>
+                </div>
+                
+                <!-- Email (DATABASE: email VARCHAR(120) UNIQUE) -->
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email Address <span class="required">*</span>
+                    </label>
+                    <input type="email" id="email" name="email" placeholder="sakshi@example.com" required>
+                    <small>Unique email required (used for login)</small>
+                </div>
+                
+                <!-- Phone (DATABASE: phone VARCHAR(15)) -->
+                <div class="form-group">
+                    <label for="phone">
+                        <i class="fas fa-phone"></i> Phone Number <span class="required">*</span>
+                    </label>
+                    <input type="tel" id="phone" name="phone" placeholder="7896484462" required maxlength="15">
+                    <small>10-digit number only (no spaces/dashes)</small>
+                </div>
+                
+                <!-- Age (DATABASE: age INTEGER) -->
+                <div class="form-group">
+                    <label for="age">
+                        <i class="fas fa-birthday-cake"></i> Age <span class="required">*</span>
+                    </label>
+                    <input type="number" id="age" name="age" placeholder="25" required min="18" max="65">
+                    <small>18-65 years only</small>
+                </div>
+                
+                <!-- Education (DATABASE: education VARCHAR(100)) -->
+                <div class="form-group">
+                    <label for="education">
+                        <i class="fas fa-graduation-cap"></i> Highest Education <span class="required">*</span>
+                    </label>
+                    <input type="text" id="education" name="education" placeholder="MCA" required maxlength="100" minlength="2">
+                    <small>e.g., B.Tech, MBA, B.Sc, M.Com, PhD</small>
+                </div>
+                
+                <!-- Password (DATABASE: password_hash VARCHAR(128)) -->
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password <span class="required">*</span>
+                    </label>
+                    <input type="password" id="password" name="password" placeholder="Create strong password" required minlength="8">
+                    <div class="password-strength" id="strengthBar"></div>
+                    <small>Min 8 chars: 1 Uppercase(A-Z), 1 Number(0-9), 1 Special(!@#$%)</small>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    
+                    Complete Registration
+                </button>
+                <div class="form-footer">
+            <p>
+            
+            Already registered?
+            </p>
+            <a href="{{ url_for('login') }}" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> 
+                Login Here
+    </a>
+</div>  
+            </form>
+            
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+</body>
+</html>

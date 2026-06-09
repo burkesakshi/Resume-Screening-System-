@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Candidates Database</title>
+    <style>
+        body{font-family:Arial;max-width:1200px;margin:50px auto;padding:20px;background:#f8f9fa;}
+        h1{color:#4facfe;text-align:center;}
+        .stats{display:flex;justify-content:space-around;background:white;padding:20px;border-radius:10px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+        table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+        th{padding:15px;background:linear-gradient(135deg,#4facfe,#00f2fe);color:white;text-align:left;font-weight:600;}
+        td{padding:12px;border-bottom:1px solid #eee;}
+        tr:hover{background:#f8f9ff;}
+        .btn{background:#28a745;color:white;padding:12px 24px;text-decoration:none;border-radius:8px;display:inline-block;}
+        .empty{text-align:center;padding:60px;color:#666;}
+    </style>
+</head>
+<body>
+    <h1><i class="fas fa-database"></i> Candidates Database ({{ total }})</h1>
+    <div class="stats">
+        <div>Total: <strong>{{ total }}</strong></div>
+        <a href="{{ url_for('register') }}" class="btn">➕ New Candidate</a>
+    </div>
+    
+    {% if users %}
+    <table>
+        <tr>
+            <th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Age</th><th>Education</th><th>Joined</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td><strong style="color:#4facfe;">{{ user.id }}</strong></td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.age }}</td>
+            <td>{{ user.education }}</td>
+            <td>{{ user.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="empty">
+        <i class="fas fa-users" style="font-size:4rem;color:#ddd;"></i>
+        <p>No candidates yet. <a href="{{ url_for('register') }}">Add first!</a></p>
+    </div>
+    {% endif %}
+</body>
+</html>

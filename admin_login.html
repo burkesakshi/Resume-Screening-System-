@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+
+{% block extra_css %}
+<link href="{{ url_for('static', filename='admin_login.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <i class="fas fa-user-shield"></i>
+        <h1>Admin Login</h1>
+        <p>Administrator access only</p>
+    </div>
+    
+    <div class="form-container">
+        <form method="POST">
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Admin Email</label>
+                <input type="email" name="admin_email" placeholder="admin@resumescreen.com" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <input type="password" name="admin_password" placeholder="Enter admin password" required>
+            </div>
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-sign-in-alt"></i> Admin Login
+            </button>
+        </form>
+        
+        <div class="form-footer">
+            <a href="{{ url_for('index') }}" class="login-btn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

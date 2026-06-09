@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ResumeScreen AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='dashboard.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'success' if category == 'success' else 'error' }}">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <i class="fas fa-tachometer-alt"></i>
+            <h1>Dashboard</h1>
+            <p>Welcome back, <strong>{{ candidate.name }}</strong>!</p>
+        </div>
+        
+        <!-- Profile Card -->
+        <div class="form-container">
+            <div class="profile-card">
+                <h2><i class="fas fa-user-circle"></i> Your Profile</h2>
+                
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <i class="fas fa-user"></i>
+                        <strong>{{ candidate.name }}</strong>
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-envelope"></i>
+                        {{ candidate.email }}
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-phone"></i>
+                        {{ candidate.phone }}
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-birthday-cake"></i>
+                        {{ candidate.age }} years
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        {{ candidate.education }}
+                    </div>
+                    <div class="profile-item">
+                        <i class="fas fa-calendar"></i>
+                        Joined: {{ candidate.created_at.strftime('%B %d, %Y') if candidate.created_at else 'Recent' }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="action-buttons">
+                <a href="{{ url_for('admin_candidates') }}" class="submit-btn">
+                    <i class="fas fa-users"></i> View All Candidates
+                </a>
+                <a href="{{ url_for('logout') }}" class="login-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.transition = 'opacity 0.5s';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
